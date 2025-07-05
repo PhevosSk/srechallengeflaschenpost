@@ -1,6 +1,6 @@
 # Kubernetes Shop Backend Deployment
 
-This project contains Kubernetes manifests for deploying a scalable, secure shop backend API with monitoring capabilities.
+This project contains Kubernetes manifests for deploying a scalable, secure shop backend API.
 
 ## Overview
 
