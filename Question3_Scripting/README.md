@@ -66,7 +66,6 @@ python ingress_logs_analysis.py fp-sre-challenge.log
 
 The script includes robust error handling:
 - **File not found**: Clear error message with filename
-- **File reading errors**: General exception handling for file I/O issues
 - **Invalid arguments**: Usage instructions displayed and script exits
 - **Parsing failures**: Lines that don't match expected format are silently skipped
 
