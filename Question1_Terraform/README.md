@@ -226,33 +226,3 @@ terraform show -json tfplan.binary > tfplan.json
 terraform plan -var-file="dev.tfvars"
 ```
 
-### State Inspection
-```bash
-# Show current state
-terraform show
-
-# List resources in state
-terraform state list
-
-# Show specific resource details
-terraform state show azurerm_storage_account.stg
-
-# Check what would be destroyed
-terraform plan -destroy -var-file="dev.tfvars"
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Storage Account Name Conflicts**
-   - Storage account names must be globally unique
-   - Modify the naming variables if conflicts occur
-
-2. **Private Endpoint DNS Resolution**
-   - Ensure the DNS zone virtual network link is properly configured
-   - Check that DNS servers are correctly set in the VNet
-
-3. **Role Assignment Failures**
-   - Verify user principal names exist in Azure AD
-   - Ensure deployment identity has sufficient permissions
