@@ -22,12 +22,39 @@ TerraformProject/main/
 ```
 ## Project Overview
 This project provisions:
+- Storage Module:
 - **Storage Account** with private container
 - **Private Endpoint** for secure VNet-only access
 - **Virtual Network** with subnet and private DNS configuration
+- **Role Assignments** for access control
+- Observability Module:
 - **Log Analytics Workspace** for storage and analysis of log diagnostics
 - **Monitor Log Diagnostics** for monitoring and diagnostics
-- **Role Assignments** for access control
+
+
+## Security Features
+Storage account is only accessible via  private endpoint, for maximum security. Ednpoint is being resolved in the DNS name zone on which the autoregistration feature is disabled.
+Plus, nested item of the storage account, in our case the container, is set to be private and public network access is also disabled.
+
+### Private Connectivity
+- **Private Endpoint** - Storage account is only accessible from within the VNet
+- **Private DNS Zone** - Automatic DNS resolution for private endpoint IP addresses
+- **Network Security** - No internet access to storage account required
+
+### Access Control
+- **Role Assignments** - RBAC for users and service principals
+- **Container Access** - Private container with no public access
+- **Service Principal** - Automatic Owner role for deployment identity
+
+
+## Observability Features
+A log analytics workspace is provisioned, which hosts the logs and metrics of the storage account, stored in separate tables.
+The metrics and logs are built dynamically, after querying the storage account created using the data function, and retrieving the available metric and logs.
+
+### Monitoring
+- **Log Analytics** - Centralized logging and monitoring
+- **Diagnostic Settings** - Comprehensive logging of storage account activities
+- **Retention Policies** - Configurable log retention periods
 
 
 ## Prerequisites
@@ -77,6 +104,7 @@ The `dev.tfvars` file contains all the configuration values for your infrastruct
 dev.tfvars → Root Variables → Module Variables → Resource Names
 ```
 
+
 ### How Modules Use Variables
 - **Storage Module**: Uses naming variables to create `sre-challenge-flaschenpost` resource group
 - **Observability Module**: Uses naming variables to create `log-sre-challenge-flaschenpost` workspace
@@ -87,6 +115,9 @@ All resources follow a consistent naming pattern based on three core variables:
 - `department` - Department name (e.g., "sre")
 - `project` - Project name (e.g., "challenge") 
 - `company` - Company name (e.g., "flaschenpost")
+
+#hint
+   Storage account's name was supposed to be srechallengeforflaschenpost, but azure allows a name to be up to 27 characters, thus i removed the 'for' and set it as 'srechallengeflaschenpost'.
 
 ### Resource Naming Patterns
 | Resource Type | Pattern | Example |
@@ -129,26 +160,9 @@ After successful deployment, this project provides the following outputs:
 This project uses **local state storage** for simplicity:
 - **State File**: `terraform.tfstate` (stored locally)
 - **Location**: Same directory as Terraform configuration
-- **Backup**: Automatic backup files are created (`terraform.tfstate.backup`)
 
 > **Note**: For production environments, we would use a remote state backends (Azure Storage, AWS S3, etc.) for better collaboration and state security.
 
-## Security Features
-
-### Private Connectivity
-- **Private Endpoint** - Storage account is only accessible from within the VNet
-- **Private DNS Zone** - Automatic DNS resolution for private endpoint IP addresses
-- **Network Security** - No internet access to storage account required
-
-### Access Control
-- **Role Assignments** - RBAC for users and service principals
-- **Container Access** - Private container with no public access
-- **Service Principal** - Automatic Owner role for deployment identity
-
-### Monitoring
-- **Log Analytics** - Centralized logging and monitoring
-- **Diagnostic Settings** - Comprehensive logging of storage account activities
-- **Retention Policies** - Configurable log retention periods
 
 ## Architecture
 
@@ -200,29 +214,5 @@ This project uses **local state storage** for simplicity:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Terraform Commands Reference
 
-### Planning and Validation
-```bash
-# Initialize the project
-terraform init
-
-# Validate configuration syntax
-terraform validate
-
-# Format code to standard style
-terraform fmt
-
-# Create execution plan
-terraform plan -var-file="dev.tfvars" -out=tfplan.binary
-
-# Convert binary plan to readable text
-terraform show tfplan.binary > tfplan.txt
-
-# View plan in JSON format (for advanced analysis)
-terraform show -json tfplan.binary > tfplan.json
-
-# Preview changes without creating plan file
-terraform plan -var-file="dev.tfvars"
-```
 
