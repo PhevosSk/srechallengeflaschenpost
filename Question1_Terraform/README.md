@@ -161,7 +161,7 @@ This project uses **local state storage** for simplicity:
 - **State File**: `terraform.tfstate` (stored locally)
 - **Location**: Same directory as Terraform configuration
 
-> **Note**: For production environments, we would use a remote state backends (Azure Storage, AWS S3, etc.) for better collaboration and state security.
+> **Note**: For production environments, we would use a remote state backends (Azure Storage) for better collaboration and state security.
 
 
 ## Architecture
