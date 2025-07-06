@@ -22,12 +22,12 @@ TerraformProject/main/
 ```
 ## Project Overview
 This project provisions:
-- Storage Module:
+ Storage Module:
 - **Storage Account** with private container
 - **Private Endpoint** for secure VNet-only access
 - **Virtual Network** with subnet and private DNS configuration
 - **Role Assignments** for access control
-- Observability Module:
+ Observability Module:
 - **Log Analytics Workspace** for storage and analysis of log diagnostics
 - **Monitor Log Diagnostics** for monitoring and diagnostics
 
@@ -49,7 +49,7 @@ Plus, nested item of the storage account, in our case the container, is set to b
 
 ## Observability Features
 A log analytics workspace is provisioned, which hosts the logs and metrics of the storage account, stored in separate tables.
-The metrics and logs are built dynamically, after querying the storage account created using the data function, and retrieving the available metric and logs.
+The metrics and logs are built dynamically, after querying the storage account created in the storage module, and retrieving the available metrics and logs.
 
 ### Monitoring
 - **Log Analytics** - Centralized logging and monitoring
